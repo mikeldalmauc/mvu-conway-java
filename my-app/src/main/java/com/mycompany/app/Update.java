@@ -102,7 +102,7 @@ public class Update{
         Predicate<Pair<Integer, Integer>> notSelf = p -> !p.getKey().equals(p.getValue());
         
         return Arrays.asList(i-1, i, i+1).stream()
-            .flatMap(row -> Arrays.asList(j-1, j, j+1).stream().map(col -> new Pair(row, col)))
+            .flatMap(row -> Arrays.asList(j-1, j, j+1).stream().map(col -> new Pair<Integer,Integer>(row, col)))
             .filter(p -> notSelf.test(p) && insideBounds.test(p))
             .filter(p -> model.getCells().get(p.getKey()).containsKey(p.getValue()))
             .collect(Collectors.toList())

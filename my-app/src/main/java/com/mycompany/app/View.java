@@ -7,23 +7,17 @@ import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
-import java.util.Random;
 
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.NumberFormatter;
@@ -59,6 +53,7 @@ public class View implements PropertyChangeListener{
 
     private JFormattedTextField campoH;
     private JFormattedTextField campoW;
+    private JLabel labelGen;
 
     public View(Model model){
 
@@ -110,7 +105,7 @@ public class View implements PropertyChangeListener{
 
     public JPanel viewMenuInit(Model model){
 
-        JPanel panelMenu = new JPanel(new FlowLayout());
+        JPanel panelMenu = new JPanel(new GridLayout(3, 1));
 
         JPanel panelLateral = new JPanel(new FlowLayout(FlowLayout.LEADING));
 
@@ -127,7 +122,7 @@ public class View implements PropertyChangeListener{
         panelLateral.add(btnStop);
 
 
-        JPanel panelCentral = new JPanel(new GridLayout(2, 2));
+        JPanel panelCentral = new JPanel(new FlowLayout(FlowLayout.LEADING));
 
         JLabel labelH = new JLabel("H:");
         
@@ -152,9 +147,14 @@ public class View implements PropertyChangeListener{
         panelCentral.add(campoW);
         campoW.getDocument().addDocumentListener(createDocumentListener(campoW, Msg.RedimensionW, model));
 
+        labelGen = new JLabel("Gen: "+ model.getGeneration());
+        panelCentral.add(labelGen);
+
+
         // Agregar paneles al panel principal
-        panelMenu.add(panelLateral, BorderLayout.NORTH);
-        panelMenu.add(panelCentral, BorderLayout.SOUTH);
+        panelMenu.add(panelLateral);
+        panelMenu.add(panelCentral);
+        panelMenu.add(labelGen);
 
         return panelMenu;
     }
@@ -205,8 +205,17 @@ public class View implements PropertyChangeListener{
                 if(model.getCells().get(i).containsKey(j)){
                     casilla.add(new JLabel(new ImageIcon(createBlueCircle())), BorderLayout.CENTER);
                 }
+                casilla.repaint();
+                casilla.revalidate();
             }
         }
+
+        labelGen.setText("Gen: " + model.getGeneration());
+
+        // world.repaint();
+        // panelPrincipal.repaint();
+        // jframe.repaint();
+        // jframe.revalidate();
     }
     
 }

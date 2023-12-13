@@ -5,11 +5,6 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
-import javafx.scene.paint.Color;
-
 public class Model {
     
     /*
@@ -24,11 +19,19 @@ public class Model {
     /**
      *  Model data should go here
      */
-    private Map<Integer, Map<Integer, Boolean>> cells;
-
     private Integer width;
     private Integer height;
+    
+    private Integer generation;
+    private GameState gameState;
+    private Map<Integer, Map<Integer, Boolean>> cells;
 
+    public enum GameState {
+        Running,
+        Stopped;
+        private GameState(){
+        }
+    }
 
     public Model(){
         this.support = new PropertyChangeSupport(this);
@@ -38,11 +41,13 @@ public class Model {
          */
         this.width = 10;
         this.height = 10;
-        this.initCells();        
+        this.generation = 0;
+        this.gameState = GameState.Stopped;
+        this.cells = initCells();
     }
     
 
-    public void initCells(){
+    public Map<Integer, Map<Integer, Boolean>> initCells(){
         Map<Integer, Map<Integer, Boolean>> cells = new HashMap<>();
 
         for (int i = 0; i < this.width; i++) {
@@ -56,7 +61,10 @@ public class Model {
             }
         }
 
-        this.cells = cells;
+        this.gameState = GameState.Stopped;
+        this.generation = 0;
+
+        return cells;
     }
 
     public Integer getWidth() {
@@ -69,7 +77,7 @@ public class Model {
     public void setWidth(Integer width) {
         Integer old = this.width;
         this.width= width;
-        
+
         initCells();
         support.firePropertyChange("width", old, this.width);;
     }
@@ -99,5 +107,21 @@ public class Model {
         this.cells = cells;
         support.firePropertyChange("cells", old, this.cells);;
     }
-    
+ 
+    public Integer getGeneration(){
+        return this.generation;
+    }
+
+    public void setGeneration(Integer generation){
+        this.generation = generation;
+    }
+
+    public GameState getGameState(){
+        return this.gameState;
+    }
+
+    public void setGameState(GameState state){
+        this.gameState = state;
+    }
+
 }

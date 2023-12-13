@@ -5,15 +5,14 @@ package com.mycompany.app;
  */
 public enum Msg {
 
-    Reset(1),
-    Start(2),
-    Stop(3),
-    RedimensionH(4),
-    RedimensionW(4);
-
-    private int value;
+    Reset,
+    Start,
+    Stop,
+    RedimensionH,
+    RedimensionW,
+    NewGeneration
+    ;
     
-    private Msg(int value){
-        this.value = value;
+    private Msg(){
     }
 }

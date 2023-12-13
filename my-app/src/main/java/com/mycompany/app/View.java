@@ -198,13 +198,15 @@ public class View implements PropertyChangeListener{
 
          for (int i = 0; i < model.getWidth(); i++) {
             for (int j = 0; j < model.getHeight(); j++) {
-    
+                
+                
                 JPanel casilla = (JPanel) world.getComponent(i * model.getHeight() + j);
                 casilla.removeAll();
-
+    
                 if(model.getCells().get(i).containsKey(j)){
                     casilla.add(new JLabel(new ImageIcon(createBlueCircle())), BorderLayout.CENTER);
                 }
+
                 casilla.repaint();
                 casilla.revalidate();
             }

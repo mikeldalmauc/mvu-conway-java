@@ -53,7 +53,7 @@ public class Update{
                 public void run() {
                     Update.update(Msg.NewGeneration, model);
                 }
-            }, 1000);
+            }, 500);
         }
     }
 

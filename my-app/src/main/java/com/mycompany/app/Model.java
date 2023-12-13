@@ -78,22 +78,22 @@ public class Model {
         Integer old = this.width;
         this.width= width;
 
-        initCells();
+        this.cells = initCells();
         support.firePropertyChange("width", old, this.width);;
     }
-
+    
     public Integer getHeight() {
         return height;
     }
-
+    
     /*
      * This can be improved and be made with a tag
      */
     public void setHeight(Integer height) {
         Integer old = this.height;
         this.height= height;
-
-        initCells();
+        
+        this.cells = initCells();
         support.firePropertyChange("height", old, this.height);;
     }
     

@@ -11,10 +11,10 @@ public class App
 {
 
     public static void main( String[] args ){
-        counterProgram();
+        conwayGameOfLife();
     }   
 
-    public static void counterProgram(){
+    public static void conwayGameOfLife(){
 
         Model model = new Model();
         View view = new View(model);

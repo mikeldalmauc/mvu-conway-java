@@ -5,8 +5,11 @@ package com.mycompany.app;
  */
 public enum Msg {
 
-    UP(1),
-    DOWN(2);
+    Reset(1),
+    Start(2),
+    Stop(3),
+    RedimensionH(4),
+    RedimensionW(4);
 
     private int value;
     

@@ -32,11 +32,11 @@ public class View implements PropertyChangeListener{
         if(evt.getPropertyName().equals("fc")){
 
             panelPrincipal.remove(world);
-
             world = viewTableroInit((Model) evt.getSource());
             panelPrincipal.add(world);
 
             panelPrincipal.repaint();
+            panelPrincipal.revalidate();
         } else {
 
             this.view((Model) evt.getSource());
@@ -184,6 +184,7 @@ public class View implements PropertyChangeListener{
             }
         };
     }
+
     // Método para crear un círculo azul (imagen)
     private static Image createBlueCircle() {
         int diameter = 50;
@@ -214,11 +215,13 @@ public class View implements PropertyChangeListener{
                     casilla.add(new JLabel(new ImageIcon(createBlueCircle())), BorderLayout.CENTER);
                 }
 
-                casilla.repaint();
-                casilla.revalidate();
+                // casilla.repaint();
+                // casilla.revalidate();
             }
         }
 
+        world.repaint();
+        world.revalidate();
         labelGen.setText("Gen: " + model.getGeneration());
     }
     

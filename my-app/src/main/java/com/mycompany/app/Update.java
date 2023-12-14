@@ -24,6 +24,7 @@ public class Update{
             case Reset:
                 model.setGameState(GameState.Stopped);
                 model.setCells(model.initCells());
+                model.setGeneration(0);
                 break;
                 
             case Start:
@@ -64,19 +65,26 @@ public class Update{
 
     public static void updateFC(Msg msg, Integer value, Model model){
 
+
         switch (msg) {
             case RedimensionH:
                 model.setHeight(value);
+                model.setCells(model.initCells());
+
                 break;
             case RedimensionW:
                 model.setWidth(value);
+                model.setCells(model.initCells());
+
                 break;
-                
+            case GensPerSecond:
+                if(model.getGameState().equals(GameState.Running))
+                    model.setCells(model.initCells());
+                model.setGensPerSecond(value);
             default:
                 break;
         }
-
-        model.initCells();
+        
         model.setGameState(GameState.Stopped);
         model.setGeneration(0);
         

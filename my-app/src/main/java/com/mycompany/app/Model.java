@@ -24,7 +24,7 @@ public class Model {
      */
     private Integer width;
     private Integer height;
-    
+    private Integer gensPerSecond;
     private Integer generation;
     private GameState gameState;
     private Map<Integer, Map<Integer, Boolean>> cells;
@@ -47,6 +47,7 @@ public class Model {
         this.generation = 0;
         this.gameState = GameState.Stopped;
         this.cells = initCells();
+        this.gensPerSecond = 2;
     }
     
 

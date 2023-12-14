@@ -37,7 +37,12 @@ public class Update{
             case NewGeneration:
                 if(model.getGameState().equals(GameState.Running)){
                     model.setGeneration(model.getGeneration() + 1);
-                    model.setCells(newGeneration(model));
+                    Map<Integer, Map<Integer, Boolean>> nG = newGeneration(model);
+                    
+                    if(nG.equals(model.getCells()))
+                        model.setGameState(GameState.Stopped);
+                    else    
+                        model.setCells(newGeneration(model));
                 }
                 break;
             default:
@@ -51,13 +56,13 @@ public class Update{
                 public void run() {
                     Update.update(Msg.NewGeneration, model);
                 }
-            }, 500);
+            }, 1000 / model.getGensPerSecond());
         }
 
         model.notifyChange();
     }
 
-    public static void update(Msg msg, Integer value, Model model){
+    public static void updateFC(Msg msg, Integer value, Model model){
 
         switch (msg) {
             case RedimensionH:

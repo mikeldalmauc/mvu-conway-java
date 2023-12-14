@@ -54,13 +54,14 @@ public class View implements PropertyChangeListener{
 
     private JFormattedTextField campoH;
     private JFormattedTextField campoW;
+    private JFormattedTextField campoGs;
     private JLabel labelGen;
 
     public View(Model model){
 
         jframe = new JFrame("World");
 
-        jframe.setSize(700, 500);
+        jframe.setSize(1000, 800);
         jframe.setLocationRelativeTo(null);
 
         // Configurar el layout
@@ -106,7 +107,7 @@ public class View implements PropertyChangeListener{
 
     public JPanel viewMenuInit(Model model){
 
-        JPanel panelMenu = new JPanel(new GridLayout(3, 1));
+        JPanel panelMenu = new JPanel(new GridLayout(5, 2));
 
         JPanel panelLateral = new JPanel(new FlowLayout(FlowLayout.LEADING));
 
@@ -121,40 +122,45 @@ public class View implements PropertyChangeListener{
         JButton btnStop = new JButton("Stop");
         btnStop.addActionListener(e -> Update.update(Msg.Stop, model));
         panelLateral.add(btnStop);
-
-
-        JPanel panelCentral = new JPanel(new FlowLayout(FlowLayout.LEADING));
-
-        JLabel labelH = new JLabel("H:");
         
         NumberFormat integerFormat = NumberFormat.getIntegerInstance();
         NumberFormatter integerFormatter = new NumberFormatter(integerFormat);
         integerFormatter.setValueClass(Integer.class);
         integerFormatter.setAllowsInvalid(false); // No permite entradas inválidas
 
-
-        panelCentral.add(labelH);
+        JLabel labelH = new JLabel("H:");
         campoH = new JFormattedTextField(integerFormatter);
-        campoH.setColumns(10);
+        campoH.setColumns(3);
         campoH.setValue(model.getHeight());
-        panelCentral.add(campoH);
         campoH.getDocument().addDocumentListener(createDocumentListener(campoH, Msg.RedimensionH, model));
         
         JLabel labelW = new JLabel("W:");
-        panelCentral.add(labelW);
         campoW = new JFormattedTextField(integerFormatter);
-        campoW.setColumns(10);
+        campoW.setColumns(3);
         campoW.setValue(model.getWidth());
-        panelCentral.add(campoW);
         campoW.getDocument().addDocumentListener(createDocumentListener(campoW, Msg.RedimensionW, model));
+        
+        JLabel labelGs = new JLabel("Generations Per Second:");
+        campoGs = new JFormattedTextField(integerFormatter);
+        campoGs.setColumns(3);
+        campoGs.setValue(model.getGensPerSecond());
+        campoGs.getDocument().addDocumentListener(createDocumentListener(campoGs, Msg.GensPerSecond, model));
 
         labelGen = new JLabel("Gen: "+ model.getGeneration());
-        panelCentral.add(labelGen);
-
 
         // Agregar paneles al panel principal
         panelMenu.add(panelLateral);
-        panelMenu.add(panelCentral);
+        panelMenu.add(new JLabel());
+
+        panelMenu.add(labelW);
+        panelMenu.add(campoW);
+
+        panelMenu.add(labelH);
+        panelMenu.add(campoH);
+
+        panelMenu.add(labelGs);
+        panelMenu.add(campoGs);
+
         panelMenu.add(labelGen);
 
         return panelMenu;
@@ -164,12 +170,12 @@ public class View implements PropertyChangeListener{
         return new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent e) {
-                Update.update(msg, (Integer) field.getValue() ,model);
+                Update.updateFC(msg, (Integer) field.getValue() ,model);
             }
             
             @Override
             public void removeUpdate(DocumentEvent e) {
-                Update.update(msg, (Integer) field.getValue(), model);
+                Update.updateFC(msg, (Integer) field.getValue(), model);
             }
 
             @Override

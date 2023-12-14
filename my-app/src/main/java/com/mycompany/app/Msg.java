@@ -10,7 +10,8 @@ public enum Msg {
     Stop,
     RedimensionH,
     RedimensionW,
-    NewGeneration
+    NewGeneration,
+    GensPerSecond
     ;
     
     private Msg(){

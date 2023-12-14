@@ -5,6 +5,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.Data;
+
+@Data
 public class Model {
     
     /*
@@ -60,68 +63,16 @@ public class Model {
                 } 
             }
         }
-
-        this.gameState = GameState.Stopped;
-        this.generation = 0;
-
+        
         return cells;
     }
 
-    public Integer getWidth() {
-        return width;
-    }
 
-    /*
-     * This can be improved and be made with a tag
-     */
-    public void setWidth(Integer width) {
-        Integer old = this.width;
-        this.width= width;
-
-        this.cells = initCells();
-        support.firePropertyChange("width", old, this.width);;
+    public void notifyChange(){
+        support.firePropertyChange("c", null, null);;
     }
     
-    public Integer getHeight() {
-        return height;
+    public void notifyFullChange(){
+        support.firePropertyChange("fc", null, null);;
     }
-    
-    /*
-     * This can be improved and be made with a tag
-     */
-    public void setHeight(Integer height) {
-        Integer old = this.height;
-        this.height= height;
-        
-        this.cells = initCells();
-        support.firePropertyChange("height", old, this.height);;
-    }
-    
-    public  Map<Integer, Map<Integer, Boolean>> getCells(){
-        return cells;
-    }
-    
-    public void setCells(Map<Integer, Map<Integer, Boolean>> cells){
-        Map<Integer, Map<Integer, Boolean>> old = this.cells;
-        
-        this.cells = cells;
-        support.firePropertyChange("cells", old, this.cells);;
-    }
- 
-    public Integer getGeneration(){
-        return this.generation;
-    }
-
-    public void setGeneration(Integer generation){
-        this.generation = generation;
-    }
-
-    public GameState getGameState(){
-        return this.gameState;
-    }
-
-    public void setGameState(GameState state){
-        this.gameState = state;
-    }
-
 }

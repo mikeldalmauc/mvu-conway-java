@@ -29,8 +29,7 @@ public class View implements PropertyChangeListener{
     
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if(evt.getPropertyName().equals("width")
-            || evt.getPropertyName().equals("height")){
+        if(evt.getPropertyName().equals("fc")){
 
             panelPrincipal.remove(world);
 
@@ -38,9 +37,11 @@ public class View implements PropertyChangeListener{
             panelPrincipal.add(world);
 
             panelPrincipal.repaint();
+        } else {
+
+            this.view((Model) evt.getSource());
         }
 
-        this.view((Model) evt.getSource());
     }
     
     /**
@@ -213,11 +214,6 @@ public class View implements PropertyChangeListener{
         }
 
         labelGen.setText("Gen: " + model.getGeneration());
-
-        // world.repaint();
-        // panelPrincipal.repaint();
-        // jframe.repaint();
-        // jframe.revalidate();
     }
     
 }

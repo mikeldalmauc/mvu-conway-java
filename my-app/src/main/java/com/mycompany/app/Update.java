@@ -10,8 +10,6 @@ import java.util.stream.Collectors;
 
 import com.mycompany.app.Model.GameState;
 
-import javafx.util.Pair;
-
 public class Update{
 
     /**
@@ -55,6 +53,8 @@ public class Update{
                 }
             }, 500);
         }
+
+        model.notifyChange();
     }
 
     public static void update(Msg msg, Integer value, Model model){
@@ -71,6 +71,11 @@ public class Update{
                 break;
         }
 
+        model.initCells();
+        model.setGameState(GameState.Stopped);
+        model.setGeneration(0);
+        
+        model.notifyFullChange();
     }
 
     public static Map<Integer, Map<Integer, Boolean>> newGeneration(Model model){
@@ -97,15 +102,17 @@ public class Update{
 
     public static Integer neighbours(Integer i, Integer j, Model model){
         
-        Predicate<Pair<Integer, Integer>> insideBounds = p -> p.getKey() > 0 && p.getKey() < model.getHeight()
-            && p.getValue() > 0 && p.getValue() < model.getWidth();
-        Predicate<Pair<Integer, Integer>> notSelf = p -> !p.getKey().equals(p.getValue());
+        Predicate<Pair> insideBounds = p -> p.getLeft() >= 0 && p.getLeft() < model.getHeight()
+            && p.getRight() >= 0 && p.getRight() < model.getWidth();
+        Predicate<Pair> notSelf = p -> !p.getLeft().equals(p.getRight());
         
         return Arrays.asList(i-1, i, i+1).stream()
-            .flatMap(row -> Arrays.asList(j-1, j, j+1).stream().map(col -> new Pair<Integer,Integer>(row, col)))
+            .flatMap(row -> Arrays.asList(j-1, j, j+1).stream().map(col -> new Pair(row, col)))
             .filter(p -> notSelf.test(p) && insideBounds.test(p))
-            .filter(p -> model.getCells().get(p.getKey()).containsKey(p.getValue()))
+            .filter(p -> model.getCells().get(p.getLeft()).containsKey(p.getRight()))
             .collect(Collectors.toList())
             .size();
     }
+
+
 }
